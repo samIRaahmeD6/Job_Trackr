@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-inter: "Inter", sans-serif;
+  }
+}
