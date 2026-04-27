@@ -13,6 +13,7 @@ import Timeline from './components/pages/Timeline/Timeline';
 import Reminders from './components/pages/Reminders/Reminders';
 import Resume_Analyzer from './components/pages/Resume-Analyzer/Resume_Analyzer';
 import Resume from './components/pages/Resume/Resume';
+import Skill_Gaps from './components/pages/Skill_Gaps/Skill_Gaps';
 function App() {
 
   return (
@@ -33,6 +34,7 @@ function App() {
       <Route path='/reminders' element={<Reminders/>}></Route>
       <Route path='/resume-analyzer' element={<Resume_Analyzer/>}></Route>
       <Route path='/resume' element={<Resume/>}></Route>
+      <Route path='/skill-gaps' element={<Skill_Gaps/>}></Route>
     </Routes>
   )
 }
