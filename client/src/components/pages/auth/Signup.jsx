@@ -62,10 +62,21 @@ const Signup = () => {
           Free to use, no credit card required</p></div>
         <div className='p-9'>
           <div className='pb-4'>
-          <label htmlFor="" className='text-sm text-[#D3D1C7] pb-2 '>Name</label>
+            <div className='flex gap-4'>
+              <div className=''>
+<label htmlFor="" className='text-sm text-[#D3D1C7] pb-2 '>First Name</label>
           <div className='flex pt-1'>
-            <input type="text" placeholder='John Doe' className='border border-white/16 w-96 rounded-md h-10 placeholder-[#5F5E5A] p-2'/>
+            <input type="text" placeholder='John' className='border border-white/16 rounded-md h-10 w-45 placeholder-[#5F5E5A] p-2'/>
           </div>
+          </div>
+           <div className=''>
+          <label htmlFor="" className='text-sm text-[#D3D1C7] pb-2 '>Last name</label>
+          <div className='flex pt-1'>
+            <input type="text" placeholder='Doe' className='border border-white/16 rounded-md h-10 w-45 placeholder-[#5F5E5A] p-2'/>
+          </div>
+          </div>
+            </div>
+          
           </div>
           <div className='pb-2'>
           <label htmlFor="" className='text-sm text-[#D3D1C7] pb-2 '>Email Address</label>
