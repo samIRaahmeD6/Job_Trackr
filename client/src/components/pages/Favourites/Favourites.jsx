@@ -31,7 +31,7 @@ const Favourites = ({children}) => {
             <Card>
                 <div className='flex justify-between items-center mb-6 border-b-white/16'>
                 <div className='flex gap-4 items-center'>
-                                  <img src={TrackerLogo} alt=""  className='h-10 w-10 rounded-lg'/>
+                                  <div className='h-10 w-10 rounded-lg bg-white text-[#3B6D11] font-semibold flex items-center justify-center'>ST</div>
                                   <div className=''>
                                     <h1 className='text-white font-semibold'>
                                     Frontend Engineer</h1>
@@ -59,7 +59,7 @@ const Favourites = ({children}) => {
             <Card>
                 <div className='flex justify-between items-center mb-6 border-b-white/16'>
                 <div className='flex gap-4 items-center'>
-                                  <img src={TrackerLogo} alt=""  className='h-10 w-10 rounded-lg'/>
+                                  <div className='h-10 w-10 rounded-lg bg-white text-[#3B6D11] font-semibold flex items-center justify-center'>SH</div>
                                   <div className=''>
                                     <h1 className='text-white font-semibold'>
                                     UI Engineer</h1>

@@ -4,6 +4,7 @@ import Logo from '../../../assets/trackerLogo.png'
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { registerUser } from '../../../services/authService';
+import { loginUser } from '../../../services/authService';
 const Signup = () => {
   const[form, setForm] = useState({
     firstName: "",
