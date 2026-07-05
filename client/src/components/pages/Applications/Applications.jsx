@@ -8,9 +8,10 @@ import Badges from '../../ui/Badges'
 import FavouriteButton from '../../ui/FavouriteButton'
 import { getJob } from '../../../services/jobService'
 import { showJobStats } from '../../../services/jobService'
+import { toggleFavorite } from '../../../services/favouriteService'
+import { updateJobStatus } from '../../../services/jobService'
 import { useState } from 'react'
 const Applications = ({children}) => {
-    const [fav, setFav] = useState(false);
     const [jobs, setJobs] = useState([])
 
     useEffect(()=>{
@@ -31,7 +32,7 @@ const Applications = ({children}) => {
   Interview: "bg-[#FAEEDA] text-[#854F0B]",
   Offer: "bg-[#EAF3DE] text-[#3B6D11]",
   Rejected: "bg-[#FCEBEB] text-[#A32D2D]",
-  TechnicalExam: "bg-[#FCEBEB] text-[#A32D2D]",
+  TechnicalExam: "bg-[#FAEEDA] text-[#854F0B]",
 };
 const[stats, setStats]  = useState(null)
 
@@ -53,8 +54,34 @@ const interview = stats?.Interview || 0;
 const technicalExam = stats?.TechnicalExam || 0
 const offer = stats?.Offer || 0;
 const rejected = stats?.Rejected || 0;
-const total =
-  applied + interview + offer + rejected + technicalExam;
+const total = applied + interview + offer + rejected + technicalExam;
+const handleFavorite = async (id) => {
+  try {
+    await toggleFavorite(id);
+
+    const updatedJobs = await getJob(); // refetch fresh data
+    setJobs(updatedJobs);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleStatusChange = async (id, status) => {
+   console.log("Changing:", id, status);
+  try {
+    await updateJobStatus(id, status);
+
+    setJobs((prevJobs) =>
+      prevJobs.map((job) =>
+        job._id === id ? { ...job, status } : job
+      )
+    );
+
+  } catch (error) {
+    console.log(error);
+  }
+};
   return (
     <div className="flex h-screen">
       
@@ -80,51 +107,64 @@ const total =
                 <Badges label='Rejected' count={rejected}></Badges>
           </div>
           <div className='m-4'>
-            <Card>
-            {jobs.map((job) => (
-  <div key={job._id} className='flex justify-between items-center mb-6 border-b-white/16'>
-    
-    <div className='flex gap-4 items-center'>
-      <div className='h-10 w-10 rounded-lg bg-white text-[#3B6D11] font-semibold flex items-center justify-center'>
-        {job.companyName?.slice(0, 2).toUpperCase()}
-      </div>
-
-      <div>
-        <h1 className='text-white font-semibold'>
-          Frontend Engineer
-        </h1>
-
-        <p className='text-[16px] text-[#888780] mb-2 font-semibold'>
-          {job.companyName}
-        </p>
-
-        <p className='text-[12px] text-[#888780]'>
-          {job.salaryMin}K–{job.salaryMax}K · Applied{" "}
-          {new Date(job.appliedDate).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          })}
-        </p>
-      </div>
-    </div>
-
-    <div className='flex gap-4'>
-      <div
-        className={`${statusStyles[job.status]} rounded-3xl pl-2 pr-2 h-7 justify-center flex items-center`}
-      >
-        {job.status}
-      </div>
-
-      <FavouriteButton
-        isFavorite={fav}
-        onToggle={() => setFav(!fav)}
-      />
-    </div>
-  </div>
-))}
-            </Card>
-            
+  {jobs.map((job) => (
+    <Card key={job._id} className='border border-white/16'>
+      
+      <div className='flex justify-between items-center'>
+        
+        <div className='flex gap-4 items-center'>
+          
+          <div className='h-10 w-10 rounded-lg bg-white text-[#3B6D11] font-semibold flex items-center justify-center'>
+            {job.companyName?.slice(0, 2).toUpperCase()}
           </div>
+
+          <div>
+            <h1 className='text-white font-semibold'>
+              {job.position}
+            </h1>
+
+            <p className='text-[16px] text-[#888780] mb-2 font-semibold'>
+              {job.companyName} · {job.location}
+            </p>
+
+            <p className='text-[12px] text-[#888780]'>
+              {job.salaryMin ? `${job.salaryMin}K` : "N/A"}–{job.salaryMax ? `${job.salaryMax}K` : "N/A"} · Applied{" "}
+              {new Date(job.appliedDate).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              })}
+            </p>
+          </div>
+        </div>
+
+        <div className='flex gap-4'>
+          
+         <div
+  className={`${statusStyles[job.status]} rounded-3xl px-2 h-7 flex items-center justify-center`}
+>
+  <select
+    value={job.status}
+    onChange={(e) => handleStatusChange(job._id, e.target.value)}
+    className="bg-transparent text-center outline-none h-full"
+  >
+    <option value="Applied">Applied</option>
+    <option value="TechnicalExam">Technical Exam</option>
+    <option value="Interview">Interview</option>
+    <option value="Offer">Offer</option>
+    <option value="Rejected">Rejected</option>
+  </select>
+</div>
+
+          <FavouriteButton
+            isFavorite={job.favorite}
+            onToggle={() => handleFavorite(job._id)}
+          />
+        </div>
+      </div>
+
+    </Card>
+  ))}
+</div>
           </div>
       </div>
     </div>
