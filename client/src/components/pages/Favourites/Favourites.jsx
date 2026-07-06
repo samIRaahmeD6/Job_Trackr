@@ -1,91 +1,125 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Topbar from '../../layout/Topbar'
 import Sidebar from '../../layout/Sidebar'
 import Card from '../../ui/Card'
-import Progressbar from '../../ui/Progressbar'
-import TrackerLogo from '../../../assets/trackerLogo.png'
-import Badges from '../../ui/Badges'
 import FavouriteButton from '../../ui/FavouriteButton'
-import { useState } from 'react'
-const Favourites = ({children}) => {
-    const [fav, setFav] = useState(false);
+
+import { getFavourites, toggleFavorite } from '../../../services/favouriteService'
+
+const statusStyles = {
+  Applied: "bg-[#E6F1FB] text-[#185FA5]",
+  Interview: "bg-[#FAEEDA] text-[#854F0B]",
+  Offer: "bg-[#EAF3DE] text-[#3B6D11]",
+  Rejected: "bg-[#FCEBEB] text-[#A32D2D]",
+  TechnicalExam: "bg-[#FCEBEB] text-[#A32D2D]",
+};
+
+const Favourites = ({ children }) => {
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const data = await getFavourites();
+        setFavorites(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
+
+  // ✅ FIX: missing function
+  const handleFavorite = async (id) => {
+    try {
+      await toggleFavorite(id);
+
+      // remove instantly from UI
+      setFavorites((prev) =>
+        prev.filter((job) => job._id !== id)
+      );
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex h-screen">
       
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main area */}
       <div className="flex flex-col flex-1">
         
-        {/* Topbar */}
-        <Topbar title= "Applications" subTitle="5 priority jobs " />
+        <Topbar title="Applications" subTitle="5 priority jobs" />
 
-        {/* Page content */}
         <div className="flex-1 p-4 bg-[#141413] overflow-auto">
+
           {children}
+
           <div className='flex ml-4 mt-4 mb-6 mr-4 gap-4'>
-            <p className=' text-[#888780]'>Jobs you've marked as priority — review these first.</p>
+            <p className='text-[#888780]'>
+              Jobs you've marked as priority — review these first.
+            </p>
           </div>
+
           <div className='m-4'>
-            <Card>
-                <div className='flex justify-between items-center mb-6 border-b-white/16'>
-                <div className='flex gap-4 items-center'>
-                                  <div className='h-10 w-10 rounded-lg bg-white text-[#3B6D11] font-semibold flex items-center justify-center'>ST</div>
-                                  <div className=''>
-                                    <h1 className='text-white font-semibold'>
-                                    Frontend Engineer</h1>
-                                    <p className='text-[16px] text-[#888780] mb-2 font-semibold'>Stripe · San Francisco, CA</p>
-                                    <p className='text-[12px] text-[#888780]'>$140k–$180k · Applied Apr 12</p>
-                                  </div>
-                                </div>
-                                <div className='flex gap-4'>
-                  <div className='bg-[#EAF3DE] text-[#3B6D11] rounded-3xl pl-2 pr-2 h-7 justify-center flex align-middle'>Offer</div>
-                  <div><FavouriteButton
-  isFavorite={fav}
-  onToggle={() => setFav(!fav)}
-/></div>
+            {favorites.map((job) => (
+              <Card key={job._id}>
+                
+                <div className='flex justify-between items-center '>
+
+                  <div className='flex gap-4 items-center'>
+
+                    <div className='h-10 w-10 rounded-lg bg-white text-[#3B6D11] font-semibold flex items-center justify-center'>
+                      {job.companyName?.charAt(0)}
+                    </div>
+
+                    <div>
+                      <h1 className='text-white font-semibold'>
+                        {job.position}
+                      </h1>
+
+                      <p className='text-[16px] text-[#888780] mb-2 font-semibold'>
+                        {job.companyName}
+                      </p>
+
+                       <p className='text-[12px] text-[#888780]'>
+              {job.salaryMin}K–{job.salaryMax}K · Applied{" "}
+              {new Date(job.appliedDate).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              })}
+            </p>
+                      
+                    </div>
+
+                  </div>
+
+                  <div className='flex gap-4 items-center'>
+
+                    <div className={`${statusStyles[job.status]} rounded-3xl px-3 py-1`}>
+                      {job.status}
+                    </div>
+
+                    <FavouriteButton
+                      isFavorite={job.favorite}
+                      onToggle={() => handleFavorite(job._id)}
+                    />
+
+                  </div>
+
                 </div>
-                </div>
-            </Card>
-            
+
+              </Card>
+            ))}
           </div>
-           
-           <div className='m-4'>
-            
-            
-          </div>
-           <div className='m-4'>
-            <Card>
-                <div className='flex justify-between items-center mb-6 border-b-white/16'>
-                <div className='flex gap-4 items-center'>
-                                  <div className='h-10 w-10 rounded-lg bg-white text-[#3B6D11] font-semibold flex items-center justify-center'>SH</div>
-                                  <div className=''>
-                                    <h1 className='text-white font-semibold'>
-                                    UI Engineer</h1>
-                                    <p className='text-[16px] text-[#888780] font-semibold'>Shopify · Toronto, CA</p>
-                                    <p className='text-[12px] text-[#888780]'>$105k–$130k·Applied Mar 28      </p>
-                                  </div>
-                                </div>
-                                <div className='flex gap-4'>
-                  <div className='bg-[#FCEBEB] text-[#A32D2D] rounded-3xl pl-2 pr-2 h-7 justify-center flex align-middle'>Rejected</div>
-                  <div><FavouriteButton
-  isFavorite={fav}
-  onToggle={() => setFav(!fav)}
-/></div>
-                </div>
-                </div>
-            </Card>
-            
-          </div>
-           <div className='m-4'>
-           
-            
-          </div>
-          </div>
+
+        </div>
       </div>
     </div>
   )
 }
- 
+
 export default Favourites
