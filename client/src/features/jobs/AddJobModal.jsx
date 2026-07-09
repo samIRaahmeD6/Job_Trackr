@@ -13,7 +13,7 @@ const AddJobModal = ({ isOpen, onClose, onJobAdded }) => {
     source: "",
     status: "Applied",
     followUp: 7,
-    notes: "",
+    jobdescription: "",
   });
 
   // handle input change
@@ -47,7 +47,8 @@ const AddJobModal = ({ isOpen, onClose, onJobAdded }) => {
         source: "",
         status: "Applied",
         followUp: 7,
-        notes: "",
+        location: "",
+        jobdescription: "",
       });
     } catch (error) {
       console.log(error);
@@ -179,7 +180,7 @@ const AddJobModal = ({ isOpen, onClose, onJobAdded }) => {
             >
               <option value="Applied" className='bg-[#30302e]'>Applied</option>
               <option value="Interview" className='bg-[#30302e]'>Interview</option>
-              <option value="TechincalExam" className='bg-[#30302e]'>TechnicalExam</option>
+              <option value="TechincalExam" className='bg-[#30302e]'>Technical Exam</option>
               <option value="Offer" className='bg-[#30302e]'>Offer</option>
               <option value="Rejected" className='bg-[#30302e]'>Rejected</option>
             </select>
@@ -202,19 +203,37 @@ const AddJobModal = ({ isOpen, onClose, onJobAdded }) => {
               <option value={30} className='bg-[#30302e]'>30 days</option>
             </select>
           </div>
+          
         </div>
+        <div className="flex gap-4">
+          
 
+          <div className="flex flex-col space-y-2">
+            <label className="text-[12px] font-semibold text-[#888780]">
+              Source
+            </label>
+            <input
+              type="text"
+              name="location"
+              value={form.location}
+              onChange={handleChange}
+              placeholder="Gulshan, Banani etc"
+              className="border border-white/16 rounded-lg p-1.5 w-54"
+            />
+          </div>
+        </div>
         {/* NOTES */}
         <div className="flex flex-col space-y-2">
           <label className="text-[12px] font-semibold text-[#888780]">
-            Notes
+            Job Description
           </label>
           <textarea
-            name="notes"
-            value={form.notes}
+            name="jobdescription"
+            value={form.jobdescription}
             onChange={handleChange}
-            placeholder="Interview notes, recruiter name etc"
+            placeholder="Job Description...."
             className="h-32 border border-white/16 p-2 rounded-lg w-full resize-none"
+            required
           />
         </div>
 
