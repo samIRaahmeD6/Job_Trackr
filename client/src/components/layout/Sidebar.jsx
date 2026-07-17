@@ -1,16 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../assets/trackerLogo.png";
 import { getProfile } from "../../services/profileService";
 import { useState, useEffect } from "react";
-// Icons
 import { RiDashboardFill } from "react-icons/ri";
 import { IoIosDocument } from "react-icons/io";
 import { MdFavorite, MdTimeline, MdAutoGraph } from "react-icons/md";
 import { RiNotificationBadgeFill } from "react-icons/ri";
 import { TbAnalyzeFilled } from "react-icons/tb";
 import { GrDocumentPdf } from "react-icons/gr";
-
+import { FaPowerOff } from "react-icons/fa";
 export default function Sidebar() {
+  const navigate = useNavigate();
   const linkClass = ({ isActive }) =>
     `flex items-center gap-2 w-full p-2 rounded-md transition ${
       isActive
@@ -34,6 +34,11 @@ export default function Sidebar() {
   fetchProfile(); // ✅ call it here
 
 }, []);
+const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user"); // if stored
+  navigate("/");
+};
   return (
     <div className="bg-[#30302e] h-screen w-70">
 
@@ -112,11 +117,31 @@ export default function Sidebar() {
         </NavLink>
       </div>
       <div className="h-5 border-b border-white/16 border-r border-r-white/16">
-      <div className="pt-8 pl-6 flex items-center gap-3">
-        <div  className="h-8 w-8 rounded-full bg-white text-[#A32D2D] font-semibold flex justify-center items-center" >{user ? user.avatarInitials : ""}</div>
-        <div className="flex flex-col"><h1 className="text-white  border-r-white/16">{user ? `${user.firstName} ${user.lastName}` : "Loading..."}</h1>
-        <p className="text-[#888780] text-[10px] font-medium">{user ? user.role : ""}</p></div>
-      </div>
+      <div className="pt-8 pl-6 flex items-center justify-between pr-6">
+  <div className="flex items-center gap-3">
+    <div className="h-8 w-8 rounded-full bg-white text-[#A32D2D] font-semibold flex justify-center items-center">
+      {user ? user.avatarInitials : ""}
+    </div>
+
+    <div className="flex flex-col">
+      <h1 className="text-white">
+        {user ? `${user.firstName} ${user.lastName}` : "Loading..."}
+      </h1>
+
+      <p className="text-[#888780] text-[10px] font-medium">
+        {user ? user.role : ""}
+      </p>
+    </div>
+  </div>
+
+  {/* Logout Icon */}
+  <button
+    onClick={handleLogout}
+    className="text-red-500 hover:text-red-400 transition-colors"
+    title="Logout">
+    <FaPowerOff size={18} />
+  </button>
+</div>
       
       </div>
     </div>
