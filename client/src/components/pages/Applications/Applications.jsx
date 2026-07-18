@@ -49,6 +49,9 @@ useEffect(() => {
 
   fetchJobs(); // ✅ REQUIRED
 }, []);
+const handleAddJob = (newJob) => {
+  setJobs(prev => [newJob, ...prev]);
+};
 const applied = stats?.Applied || 0;
 const interview = stats?.Interview || 0;
 const technicalExam = stats?.TechnicalExam || 0
@@ -92,8 +95,12 @@ const handleStatusChange = async (id, status) => {
       <div className="flex flex-col flex-1">
         
         {/* Topbar */}
-        <Topbar title= "Applications" subTitle="All 24 applications · sorted by date" />
-
+        <Topbar   title="Applications"
+        subTitle="Track all your job applications"
+        jobs={jobs}
+        onJobAdded={handleAddJob}
+        showExport={true}/>
+        
         {/* Page content */}
         <div className="flex-1 p-4 bg-[#141413] overflow-auto">
           {children}
