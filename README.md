@@ -47,7 +47,7 @@ A modern full-stack MERN application designed to help job seekers efficiently ma
 
 ## 📸 Screenshots
 
-[![Demo](src/assets/jobtrackr.gif)](src/assets/jobtrackr.gif)
+[![Demo](client/src/assets/jobtrackr.gif)](client/src/assets/jobtrackr.gif)
 
 ---
 
