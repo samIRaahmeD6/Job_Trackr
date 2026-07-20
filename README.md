@@ -4,6 +4,12 @@ A modern full-stack MERN application designed to help job seekers efficiently ma
 
 ---
 
+## 📸 Screenshots
+
+[![Demo](client/src/assets/jobtrackr.gif)](client/src/assets/jobtrackr.gif)
+
+---
+
 ## 🚀 Features
 
 - 🔐 Secure user authentication using JWT
@@ -42,12 +48,6 @@ A modern full-stack MERN application designed to help job seekers efficiently ma
 - TensorFlow / Keras
 - OpenCV
 - NumPy
-
----
-
-## 📸 Screenshots
-
-[![Demo](client/src/assets/jobtrackr.gif)](client/src/assets/jobtrackr.gif)
 
 ---
 
