@@ -10,7 +10,16 @@ import skillGapRoutes from "./routes/skillGap.routes.js";
 import insightsRoutes from "./routes/insights.routes.js";
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://job-trackr-gilt.vercel.app"
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
+
 app.use(express.json());
 
 // routes
