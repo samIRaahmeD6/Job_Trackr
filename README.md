@@ -4,7 +4,7 @@ A modern full-stack MERN application designed to help job seekers efficiently ma
 
 ---
 ## Live Link
-[![Demo](https://job-trackr-gilt.vercel.app/)](https://job-trackr-gilt.vercel.app/)
+[(https://job-trackr-gilt.vercel.app/)](https://job-trackr-gilt.vercel.app/)
 
 ---
 ## 📸 Screenshots
