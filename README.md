@@ -3,7 +3,10 @@
 A modern full-stack MERN application designed to help job seekers efficiently manage, organize, and track their job applications throughout the hiring process. The platform provides analytics, application tracking, resume analysis, and insights to make job searching more organized and data-driven.
 
 ---
+## Live Link
+[![Demo](https://job-trackr-gilt.vercel.app/)](https://job-trackr-gilt.vercel.app/)
 
+---
 ## 📸 Screenshots
 
 [![Demo](client/src/assets/jobtrackr.gif)](client/src/assets/jobtrackr.gif)
